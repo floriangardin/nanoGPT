@@ -145,9 +145,11 @@ if init_from == 'scratch':
     # init a new model from scratch
     print("Initializing a new model from scratch")
     # determine the vocab size we'll use for from-scratch training
+    from transformers import GPT2TokenizerFast
+    tokenizer = GPT2TokenizerFast.from_pretrained("floriangardin/musiclang_optimized")
     if meta_vocab_size is None:
-        print("defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)")
-    model_args['vocab_size'] = meta_vocab_size if meta_vocab_size is not None else 50304
+        print(f"defaulting to vocab_size of MusicLang to {len(tokenizer)}")
+    model_args['vocab_size'] = meta_vocab_size if meta_vocab_size is not None else len(tokenizer)
     gptconf = GPTConfig(**model_args)
     model = GPT(gptconf)
 elif init_from == 'resume':
